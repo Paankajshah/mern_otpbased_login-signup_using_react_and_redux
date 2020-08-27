@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import { register } from './UserFunctions'
+import {connect } from 'react-redux';
+import {store} from '../store'
+
+import { register , removeError, addError , registerBool } from '../store/actions'
+
 
 class Register extends Component {
   constructor() {
@@ -9,18 +13,29 @@ class Register extends Component {
       last_name: '',
       email: '',
       password: '',
-      errors: {}
     }
 
     this.onChange = this.onChange.bind(this)
+    store.dispatch(addError('Fill form'));  
     this.onSubmit = this.onSubmit.bind(this)
   }
+  componentDidUpdate(){
+    if(this.props.registera.allClear === true){
+      console.log("inside clear" , this.props)   
+      this.props.history.push('/otpPage')
+      store.dispatch(registerBool(false));
+      store.dispatch(addError('Enter OTP'));
 
-  onChange(e) {
+    }
+
+  }
+
+  onChange=(e)=> {
     this.setState({ [e.target.name]: e.target.value })
   }
   onSubmit(e) {
     e.preventDefault()
+
 
     const newUser = {
       first_name: this.state.first_name,
@@ -28,10 +43,15 @@ class Register extends Component {
       email: this.state.email,
       password: this.state.password
     }
+    const check=  this.props.register(newUser);
+    console.log('check[register] ', check)
+    if (this.props.error.message){
+      console.log("error[register]" , this.props.error.message)
+     // const check=  this.props.register(newUser);
+     console.log('registor props' , this.props)
+    }
 
-    register(newUser).then(res => {
-      this.props.history.push(`/login`)
-    })
+    
   }
 
   render() {
@@ -99,4 +119,5 @@ class Register extends Component {
   }
 }
 
-export default Register
+export default connect(store => ({ error:store.error , registera : store.register}), {register}) (Register)
+

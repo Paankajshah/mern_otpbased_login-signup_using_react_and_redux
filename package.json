@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-mysql-authentication",
+  "name": "otp_login_signup",
   "version": "1.0.0",
-  "description": "nodejs login with jwt token",
+  "description": "nodejs login signup",
   "main": "server.js",
   "scripts": {
     "test": "node server.js",
@@ -13,14 +13,18 @@
     "passport",
     "express"
   ],
-  "author": "Arjun Araneta",
+  "author": "Pankaj Shah",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.2.4",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "joi": "^17.2.1",
     "jsonwebtoken": "^7.4.2",
+    "jwt-decode": "^2.2.0",
+    "mailgun-js": "^0.22.0",
     "mongodb": "^3.1.6",
     "mongoose": "^5.2.15",
     "nodemon": "^1.18.3"

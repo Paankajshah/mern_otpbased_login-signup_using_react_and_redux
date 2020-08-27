@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import { login } from './UserFunctions'
+import { login } from '../store/actions';
+import {connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
+
 
 class Login extends Component {
   constructor() {
@@ -13,6 +17,15 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
+  componentDidUpdate(){
+    console.log('login props' , this.props)
+    if (this.props.auth.isAuthenticated) return this.props.history.push('/profile');
+
+  }
+
+  
+
+
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -24,13 +37,16 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     }
+    this.props.login(user);
+  
 
-    login(user).then(res => {
-      if (res) {
-        this.props.history.push(`/profile`)
-      }
-    })
   }
+
+  handleRegister = () =>{
+    this.props.history.push('/register');
+  }
+
+
 
   render() {
     return (
@@ -67,6 +83,12 @@ class Login extends Component {
               >
                 Sign in
               </button>
+              <button
+                onClick={this.handleRegister}
+                className="btn btn-lg btn-primary btn-block"
+              >
+                Sign Up
+              </button>
             </form>
           </div>
         </div>
@@ -75,4 +97,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default connect(store => ({auth: store.auth}), {login}) (Login)

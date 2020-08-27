@@ -1,8 +1,7 @@
-# MERN Login and Registration (MongoDB, Express, ReactJS, NodeJS)
+# OTP based MERN Login and Registration (MongoDB, Express, ReactJS, NodeJS)
 
-![MERN Todo](../screenshots/react-login1.PNG)
-#
-![MERN Todo](../screenshots/react-login2.PNG)
+![MERN Todo](./images/otpfinal.gif);
+
 
 
 ## Setup

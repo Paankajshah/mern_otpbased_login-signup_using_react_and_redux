@@ -1,28 +1,36 @@
 import React, { Component } from 'react'
 import jwt_decode from 'jwt-decode'
 
+import { login , logout } from '../store/actions';
+import {connect } from 'react-redux';
+
 class Profile extends Component {
-  constructor() {
-    super()
-    this.state = {
+    state = {
       first_name: '',
       last_name: '',
       email: '',
       errors: {}
     }
-  }
 
   componentDidMount() {
-    const token = localStorage.usertoken
-    const decoded = jwt_decode(token)
+    if(this.props.auth.isAuthenticated === false) return  this.props.history.push('/login')
+    
+    
     this.setState({
-      first_name: decoded.first_name,
-      last_name: decoded.last_name,
-      email: decoded.email
+      first_name: this.props.auth.user.first_name,
+      last_name: this.props.auth.user.last_name,
+      email: this.props.auth.user.email
     })
+
   }
+      logoutHandler =() =>{
+      this.props.logout();
+      this.props.history.push('/login')
+        
+      }
 
   render() {
+    console.log(this.state);
     return (
       <div className="container">
         <div className="jumbotron mt-5">
@@ -45,10 +53,13 @@ class Profile extends Component {
               </tr>
             </tbody>
           </table>
+
+          <button onClick={this.logoutHandler}>Logout</button>
         </div>
       </div>
     )
   }
 }
 
-export default Profile
+export default connect(store => ({auth: store.auth}), {login , logout}) (Profile)
+
